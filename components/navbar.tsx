@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import logo from "../../public/Group 5.svg"
+import logo from "../public/logo.png"
 import { auth, signIn, signOut } from '@/auth'
 // import GitHub from 'next-auth/providers/github'
 
