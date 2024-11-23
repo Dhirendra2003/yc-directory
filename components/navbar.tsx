@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import logo from "../public/logo.png"
 import { auth, signIn, signOut } from '@/auth'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 // import GitHub from 'next-auth/providers/github'
 
 const Navbar = async () => {
@@ -24,8 +25,14 @@ const Navbar = async () => {
               <button type='submit'>Logout</button>
             </form>
             <Link href={`/user/${session?.id}`}>
-              <span>{session?.user?.name}</span>
-            </Link>
+                <Avatar className="size-10">
+                  <AvatarImage
+                    src={session?.user?.image || ""}
+                    alt={session?.user?.name || ""}
+                  />
+                  <AvatarFallback>AV</AvatarFallback>
+                </Avatar>
+              </Link>
           </>)
             :
             <form

@@ -5,6 +5,9 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from './ui/button'
+import { Author, Startup } from '@/sanity/types'
+
+export type StartupCardType=Omit<Startup , "author"> & {author?:Author};
 
 function StartupCard({ posts }: { post: StartupTypeCard }) {
   return (
@@ -26,7 +29,7 @@ function StartupCard({ posts }: { post: StartupTypeCard }) {
               <h3 className='text-26-semibold line-clamp-1'>{posts.title}</h3></Link>
           </div>
           <Link href={`/user/${posts.authortId}`}>
-          <Image src={'https://placehold.co/48x48'} alt='placeholder' width={48} height={48} className='rounded-full'/>
+          <Image src={posts?.author?.image} alt='placeholder' width={48} height={48} className='rounded-full'/>
           </Link>
       </div>
       <Link href={`startup/${posts._id}`}>
@@ -36,11 +39,12 @@ function StartupCard({ posts }: { post: StartupTypeCard }) {
       <img src={posts.image} alt="placeholder" className="startup-card_img" />
       </Link>
       <div className='flex-between gap-3 mt-5'>
-        <Link href={`/?query=${posts.category.toLowerCase()}`}>
-        <Button className='startup-card_btn' asChild>
-          <Link href={`/startup/${posts._id}`}></Link>
-        </Button>
+        <Link href={`/?query=${posts?.category?.toLowerCase()}`}>
+        <p className="text-16-medium">{posts?.category}</p>
         </Link>
+        <Button className='startup-card_btn' asChild>
+          <Link href={`/startup/${posts._id}`}>Details</Link>
+        </Button>
       </div>
     </li>
   )

@@ -1,13 +1,19 @@
 import React from 'react'
 import SearchBar from '../../components/SearchBar'
-import StartupCard from '@/components/StartupCard'
-import { client } from '@/sanity/lib/client'
+import StartupCardType from '@/components/StartupCard'
+// import { client } from '@/sanity/lib/client'
 import { STARTUPS_QUERY } from '@/sanity/lib/queries'
+import StartupCard from '@/components/StartupCard'
+import {sanityFetch, SanityLive} from '@/sanity/lib/live'
+// import { StartupTypeCard } from '@/components/StartupCard'
 
 async function page({searchParams}:{searchParams:Promise<{query?:string}>
 }) {
   const query =(await searchParams).query
-  const posts=await client.fetch(STARTUPS_QUERY)
+  const params={search :query || null}
+  // const posts=await client.fetch(STARTUPS_QUERY)
+  const {data:post}=await sanityFetch({query:STARTUPS_QUERY,params})
+  // console.log(post)
  
   return (
     <>
@@ -26,13 +32,14 @@ async function page({searchParams}:{searchParams:Promise<{query?:string}>
         {query ? `search results for the following '${query}'`:"All startups"}
       </p>
       <ul className='mt-7 card_grid'>
-{posts?.length>0? (
-  posts.map((post:StartupCardType,ind)=>(
+{post?.length>0? (
+  post.map((post:StartupCardType,ind)=>(
     <StartupCard key={post.id} posts={post}/>
   ))
 ):<p className='no-results'> No Startups Found!!</p>}
       </ul>
     </section>
+    <SanityLive/>
     </>
   )
 }
