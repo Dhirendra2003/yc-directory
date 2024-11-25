@@ -5,6 +5,7 @@ import StartupCardType from '@/components/StartupCard'
 import { STARTUPS_QUERY } from '@/sanity/lib/queries'
 import StartupCard from '@/components/StartupCard'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
+import { auth } from '@/auth'
 // import { StartupTypeCard } from '@/components/StartupCard'
 
 async function page({searchParams}:{searchParams:Promise<{query?:string}>
@@ -14,6 +15,10 @@ async function page({searchParams}:{searchParams:Promise<{query?:string}>
   // const posts=await client.fetch(STARTUPS_QUERY)
   const {data:post}=await sanityFetch({query:STARTUPS_QUERY,params})
   // console.log(post)
+  const session =await auth();
+
+
+  console.log(session?.id)
  
   return (
     <>
